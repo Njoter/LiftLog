@@ -1,0 +1,39 @@
+# Server
+server.address=0.0.0.0
+server.port=${PORT:8080}
+
+# Throw exception when no handler is found
+spring.mvc.throw-exception-if-no-handler-found=true
+# Don't serve static resources (optional, but recommended for API-only apps)
+spring.web.resources.add-mappings=false
+
+# PostgreSQL Database Configuration
+Spring.datasource.url=jdbc:postgresql://localhost:5432/${DB_NAME}
+Spring.datasource.username=${DB_USERNAME}
+Spring.datasource.password=${DB_PASSWORD}
+Spring.datasource.driver-class-name=org.postgresql.Driver
+
+# Hibernate/JPA properties
+# ========================
+
+# 'update' creates/updates tables automatically. Dangerous in prod - use 'validate' or 'none'
+Spring.jpa.hibernate.ddl-auto=update
+Spring.jpa.show-sql=false
+Spring.jpa.properties.hibernate.format_sql=true
+
+# Batch processing for better performance
+# =======================================
+
+# Enables JDBC batch processing to reduce database round-trips
+# Set to 50-100 for good performance, but test with your specific use case
+spring.jpa.properties.hibernate.jdbc.batch_size=50
+# Optimizes INSERT operations by reordering them for more efficient batching
+# Should always be enabled when using batch processing
+spring.jpa.properties.hibernate.order_inserts=true
+# Optimizes UPDATE operations by reordering them for more efficient batching
+# Should always be enabled when using batch processing
+spring.jpa.properties.hibernate.order_updates=true
+# Database Dialect
+# Explicitly set PostgreSQL dialect (Spring Boot usually auto-detects this)
+# Ensures Hibernate generates optimized SQL for PostgreSQL
+spring.jpa.properties.hibernate.dialect=org.hibernate.dialect.PostgreSQLDialect
