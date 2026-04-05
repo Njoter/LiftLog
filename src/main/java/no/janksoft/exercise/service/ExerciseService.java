@@ -3,8 +3,10 @@ package no.janksoft.exercise.service;
 import lombok.RequiredArgsConstructor;
 import no.janksoft.exercise.dto.CreateExerciseRequest;
 import no.janksoft.exercise.dto.ExerciseResponse;
+import no.janksoft.exercise.exception.DuplicateExerciseException;
 import no.janksoft.exercise.model.Exercise;
 import no.janksoft.exercise.repository.ExerciseRepository;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -14,20 +16,24 @@ public class ExerciseService {
     private final ExerciseRepository exerciseRepository;
 
     public ExerciseResponse createExercise(CreateExerciseRequest request) {
-        Exercise exercise = new Exercise(
-                request.name(),
-                request.weightKg(),
-                request.reps(),
-                request.sets()
-        );
+        try {
+            Exercise exercise = new Exercise(
+                    request.name(),
+                    request.weightKg(),
+                    request.reps(),
+                    request.sets()
+            );
 
-        Exercise saved = exerciseRepository.save(exercise);
+            Exercise saved = exerciseRepository.save(exercise);
 
-        return new ExerciseResponse(
-                saved.getName(),
-                saved.getWeightKg(),
-                saved.getReps(),
-                saved.getSets()
-        );
+            return new ExerciseResponse(
+                    saved.getName(),
+                    saved.getWeightKg(),
+                    saved.getReps(),
+                    saved.getSets()
+            );
+        } catch (DataIntegrityViolationException e) {
+            throw new DuplicateExerciseException(request.name());
+        }
     }
 }
