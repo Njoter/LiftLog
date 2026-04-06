@@ -1,5 +1,6 @@
 package no.janksoft.exercise.controller;
 
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import no.janksoft.exercise.dto.CreateExerciseRequest;
 import no.janksoft.exercise.dto.ExerciseResponse;
@@ -20,7 +21,7 @@ public class ExerciseController {
 
     @PostMapping
     public ResponseEntity<ExerciseResponse> createExercise(
-            @RequestBody CreateExerciseRequest request
+            @Valid @RequestBody CreateExerciseRequest request
     ) {
         ExerciseResponse response = exerciseService.createExercise(request);
         return ResponseEntity.status(HttpStatus.CREATED).body(response);
