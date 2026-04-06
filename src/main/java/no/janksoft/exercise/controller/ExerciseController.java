@@ -33,10 +33,18 @@ public class ExerciseController {
     }
 
     @GetMapping("{id}")
-    public ResponseEntity<ExerciseResponse> getExercise(
+    public ResponseEntity<ExerciseResponse> getExerciseById(
             @PathVariable Long id
     ) {
-        ExerciseResponse response = exerciseService.getExercise(id);
+        ExerciseResponse response = exerciseService.getExerciseById(id);
         return ResponseEntity.ok(response);
+    }
+
+    @DeleteMapping("{id}")
+    public ResponseEntity<Void> deleteExercise(
+            @PathVariable Long id
+    ) {
+        exerciseService.deleteExercise(id);
+        return ResponseEntity.noContent().build();
     }
 }

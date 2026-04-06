@@ -40,11 +40,19 @@ public class ExerciseService {
                 .toList();
     }
 
-    public ExerciseResponse getExercise(Long id) {
+    public ExerciseResponse getExerciseById(Long id) {
         Exercise exercise = exerciseRepository.findById(id)
                 .orElseThrow(() -> new ExerciseNotFoundException(id));
 
         return toResponse(exercise);
+    }
+
+    public void deleteExercise(Long id) {
+        if (!exerciseRepository.existsById(id)) {
+            throw new ExerciseNotFoundException(id);
+        }
+
+        exerciseRepository.deleteById(id);
     }
 
     private ExerciseResponse toResponse(Exercise exercise) {
