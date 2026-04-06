@@ -9,6 +9,8 @@ import no.janksoft.exercise.repository.ExerciseRepository;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 @RequiredArgsConstructor
 public class ExerciseService {
@@ -25,15 +27,24 @@ public class ExerciseService {
             );
 
             Exercise saved = exerciseRepository.save(exercise);
-
-            return new ExerciseResponse(
-                    saved.getName(),
-                    saved.getWeightKg(),
-                    saved.getReps(),
-                    saved.getSets()
-            );
+            return toResponse(saved);
         } catch (DataIntegrityViolationException e) {
             throw new DuplicateExerciseException(request.name());
         }
+    }
+
+    public List<ExerciseResponse> getAllExercises() {
+        return exerciseRepository.findAll().stream()
+                .map(this::toResponse)
+                .toList();
+    }
+
+    private ExerciseResponse toResponse(Exercise exercise) {
+        return new ExerciseResponse(
+                exercise.getName(),
+                exercise.getWeightKg(),
+                exercise.getReps(),
+                exercise.getSets()
+        );
     }
 }
