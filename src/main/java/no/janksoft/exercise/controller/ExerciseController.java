@@ -3,7 +3,8 @@ package no.janksoft.exercise.controller;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import no.janksoft.exercise.dto.CreateExerciseRequest;
-import no.janksoft.exercise.dto.ExerciseResponse;
+import no.janksoft.exercise.dto.ExerciseDetails;
+import no.janksoft.exercise.dto.ExerciseSummary;
 import no.janksoft.exercise.dto.UpdateExerciseRequest;
 import no.janksoft.exercise.service.ExerciseService;
 import org.springframework.http.HttpStatus;
@@ -20,32 +21,32 @@ public class ExerciseController {
     private final ExerciseService exerciseService;
 
     @PostMapping
-    public ResponseEntity<ExerciseResponse> createExercise(
+    public ResponseEntity<ExerciseDetails> createExercise(
             @Valid @RequestBody CreateExerciseRequest request
     ) {
-        ExerciseResponse response = exerciseService.createExercise(request);
+        ExerciseDetails response = exerciseService.createExercise(request);
         return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }
 
     @GetMapping
-    public ResponseEntity<List<ExerciseResponse>> getAllExercises() {
-        List<ExerciseResponse> response = exerciseService.getAllExercises();
+    public ResponseEntity<List<ExerciseSummary>> getAllExercises() {
+        List<ExerciseSummary> response = exerciseService.getAllExercises();
         return ResponseEntity.ok(response);
     }
 
     @GetMapping("{id}")
-    public ResponseEntity<ExerciseResponse> getExerciseById(
+    public ResponseEntity<ExerciseDetails> getExerciseById(
             @PathVariable Long id
     ) {
-        ExerciseResponse response = exerciseService.getExerciseById(id);
+        ExerciseDetails response = exerciseService.getExerciseById(id);
         return ResponseEntity.ok(response);
     }
 
     @PutMapping
-    public ResponseEntity<ExerciseResponse> updateExercise(
+    public ResponseEntity<ExerciseDetails> updateExercise(
             @Valid @RequestBody UpdateExerciseRequest request
     ) {
-        ExerciseResponse response = exerciseService.updateExercise(request);
+        ExerciseDetails response = exerciseService.updateExercise(request);
         return ResponseEntity.ok(response);
     }
 

@@ -1,6 +1,6 @@
 package no.janksoft.exercise.dto;
 
-public record ExerciseResponse(
+public record ExerciseDetails(
         Long id,
         String name,
         double weightKg,
