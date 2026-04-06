@@ -4,6 +4,7 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import no.janksoft.exercise.dto.CreateExerciseRequest;
 import no.janksoft.exercise.dto.ExerciseResponse;
+import no.janksoft.exercise.dto.UpdateExerciseRequest;
 import no.janksoft.exercise.service.ExerciseService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -37,6 +38,14 @@ public class ExerciseController {
             @PathVariable Long id
     ) {
         ExerciseResponse response = exerciseService.getExerciseById(id);
+        return ResponseEntity.ok(response);
+    }
+
+    @PutMapping
+    public ResponseEntity<ExerciseResponse> updateExercise(
+            @Valid @RequestBody UpdateExerciseRequest request
+    ) {
+        ExerciseResponse response = exerciseService.updateExercise(request);
         return ResponseEntity.ok(response);
     }
 
