@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 import no.janksoft.exercise.dto.CreateExerciseRequest;
 import no.janksoft.exercise.dto.ExerciseResponse;
 import no.janksoft.exercise.exception.DuplicateExerciseException;
+import no.janksoft.exercise.exception.ExerciseNotFoundException;
 import no.janksoft.exercise.model.Exercise;
 import no.janksoft.exercise.repository.ExerciseRepository;
 import org.springframework.dao.DataIntegrityViolationException;
@@ -39,8 +40,16 @@ public class ExerciseService {
                 .toList();
     }
 
+    public ExerciseResponse getExercise(Long id) {
+        Exercise exercise = exerciseRepository.findById(id)
+                .orElseThrow(() -> new ExerciseNotFoundException(id));
+
+        return toResponse(exercise);
+    }
+
     private ExerciseResponse toResponse(Exercise exercise) {
         return new ExerciseResponse(
+                exercise.getId(),
                 exercise.getName(),
                 exercise.getWeightKg(),
                 exercise.getReps(),
