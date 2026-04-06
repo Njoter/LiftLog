@@ -7,10 +7,9 @@ import no.janksoft.exercise.dto.ExerciseResponse;
 import no.janksoft.exercise.service.ExerciseService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("${api.base-path}/exercises")
@@ -25,5 +24,11 @@ public class ExerciseController {
     ) {
         ExerciseResponse response = exerciseService.createExercise(request);
         return ResponseEntity.status(HttpStatus.CREATED).body(response);
+    }
+
+    @GetMapping
+    public ResponseEntity<List<ExerciseResponse>> getAllExercises() {
+        List<ExerciseResponse> response = exerciseService.getAllExercises();
+        return ResponseEntity.ok(response);
     }
 }
