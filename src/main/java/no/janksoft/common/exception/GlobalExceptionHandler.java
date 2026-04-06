@@ -2,6 +2,7 @@ package no.janksoft.common.exception;
 
 import no.janksoft.common.http.ErrorResponse;
 import no.janksoft.exercise.exception.DuplicateExerciseException;
+import no.janksoft.exercise.exception.ExerciseNotFoundException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.MethodArgumentNotValidException;
@@ -40,6 +41,17 @@ public class GlobalExceptionHandler {
                 "INVALID_REQUEST_FIELDS",
                 message,
                 HttpStatus.BAD_REQUEST.value()
+        );
+    }
+
+    @ExceptionHandler(ExerciseNotFoundException.class)
+    public ResponseEntity<ErrorResponse> handleExerciseNotFoundException(
+            ExerciseNotFoundException e
+    ) {
+        return errorResponse(
+                "EXERCISE_NOT_FOUND",
+                e.getMessage(),
+                HttpStatus.NOT_FOUND.value()
         );
     }
 

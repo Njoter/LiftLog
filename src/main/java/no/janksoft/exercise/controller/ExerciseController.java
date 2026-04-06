@@ -31,4 +31,12 @@ public class ExerciseController {
         List<ExerciseResponse> response = exerciseService.getAllExercises();
         return ResponseEntity.ok(response);
     }
+
+    @GetMapping("{id}")
+    public ResponseEntity<ExerciseResponse> getExercise(
+            @PathVariable Long id
+    ) {
+        ExerciseResponse response = exerciseService.getExercise(id);
+        return ResponseEntity.ok(response);
+    }
 }
