@@ -3,6 +3,8 @@ package no.janksoft.common.exception;
 import no.janksoft.common.http.ErrorResponse;
 import no.janksoft.exercise.exception.DuplicateExerciseException;
 import no.janksoft.exercise.exception.ExerciseNotFoundException;
+import no.janksoft.user.exception.DuplicateUserException;
+import no.janksoft.user.exception.UserNotFoundException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.MethodArgumentNotValidException;
@@ -26,6 +28,39 @@ public class GlobalExceptionHandler {
         );
     }
 
+    @ExceptionHandler(DuplicateUserException.class)
+    public ResponseEntity<ErrorResponse> handleDuplicateUserException(
+            DuplicateUserException e
+    ) {
+        return errorResponse(
+                "DUPLICATE_USER",
+                e.getMessage(),
+                HttpStatus.CONFLICT.value()
+        );
+    }
+
+    @ExceptionHandler(ExerciseNotFoundException.class)
+    public ResponseEntity<ErrorResponse> handleExerciseNotFoundException(
+            ExerciseNotFoundException e
+    ) {
+        return errorResponse(
+                "EXERCISE_NOT_FOUND",
+                e.getMessage(),
+                HttpStatus.NOT_FOUND.value()
+        );
+    }
+
+    @ExceptionHandler(UserNotFoundException.class)
+    public ResponseEntity<ErrorResponse> handleUserNotFoundException(
+            UserNotFoundException e
+    ) {
+        return errorResponse(
+                "USER_NOT_FOUND",
+                e.getMessage(),
+                HttpStatus.NOT_FOUND.value()
+        );
+    }
+
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public ResponseEntity<ErrorResponse> handleMethodArgumentNotValidException(
             MethodArgumentNotValidException e
@@ -41,17 +76,6 @@ public class GlobalExceptionHandler {
                 "INVALID_REQUEST_FIELDS",
                 message,
                 HttpStatus.BAD_REQUEST.value()
-        );
-    }
-
-    @ExceptionHandler(ExerciseNotFoundException.class)
-    public ResponseEntity<ErrorResponse> handleExerciseNotFoundException(
-            ExerciseNotFoundException e
-    ) {
-        return errorResponse(
-                "EXERCISE_NOT_FOUND",
-                e.getMessage(),
-                HttpStatus.NOT_FOUND.value()
         );
     }
 
