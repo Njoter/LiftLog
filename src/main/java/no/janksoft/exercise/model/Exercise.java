@@ -16,6 +16,9 @@ public class Exercise {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Column(nullable = false)
+    private Long userId;
+
     @Column(unique = true)
     private String name;
 
@@ -23,8 +26,15 @@ public class Exercise {
     private Integer reps;
     private Integer sets;
 
-    public Exercise(String name, Double weightKg, int reps, int sets) {
+    public Exercise(
+            String name,
+            Long userId,
+            Double weightKg,
+            int reps,
+            int sets
+    ) {
         this.name = name;
+        this.userId = userId;
         this.weightKg = weightKg;
         this.reps = reps;
         this.sets = sets;

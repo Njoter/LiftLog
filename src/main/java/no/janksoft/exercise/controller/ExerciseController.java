@@ -28,9 +28,11 @@ public class ExerciseController {
         return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }
 
-    @GetMapping
-    public ResponseEntity<List<ExerciseSummary>> getAllExercises() {
-        List<ExerciseSummary> response = exerciseService.getAllExercises();
+    @GetMapping("user/{userId}")
+    public ResponseEntity<List<ExerciseSummary>> getAllExercisesByUser(
+            @PathVariable Long userId
+    ) {
+        List<ExerciseSummary> response = exerciseService.getAllExercisesByUser(userId);
         return ResponseEntity.ok(response);
     }
 
