@@ -30,13 +30,14 @@ public class UserService {
 
     public UserResponse login(UserLoginRequest request) {
         User user = userRepository.findByName(request.name())
-                .orElseThrow(() -> new UserNotFoundException(request.name()));
+                .orElseThrow(UserNotFoundException::new);
 
         return toResponse(user);
     }
 
     private UserResponse toResponse(User user) {
         return new UserResponse(
+                user.getId(),
                 user.getName()
         );
     }

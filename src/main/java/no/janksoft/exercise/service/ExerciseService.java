@@ -10,6 +10,8 @@ import no.janksoft.exercise.exception.DuplicateExerciseException;
 import no.janksoft.exercise.exception.ExerciseNotFoundException;
 import no.janksoft.exercise.model.Exercise;
 import no.janksoft.exercise.repository.ExerciseRepository;
+import no.janksoft.user.exception.UserNotFoundException;
+import no.janksoft.user.repository.UserRepository;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 
@@ -20,11 +22,17 @@ import java.util.List;
 public class ExerciseService {
 
     private final ExerciseRepository exerciseRepository;
+    private final UserRepository userRepository;
 
     public ExerciseDetails createExercise(CreateExerciseRequest request) {
+        if (!userRepository.existsById(request.userId())) {
+            throw new UserNotFoundException();
+        }
+
         try {
             Exercise exercise = new Exercise(
                     request.name(),
+                    request.userId(),
                     request.weightKg(),
                     request.reps(),
                     request.sets()
@@ -37,8 +45,8 @@ public class ExerciseService {
         }
     }
 
-    public List<ExerciseSummary> getAllExercises() {
-        return exerciseRepository.findAll().stream()
+    public List<ExerciseSummary> getAllExercisesByUser(Long userId) {
+        return exerciseRepository.findAllByUserId(userId).stream()
                 .map(this::toSummary)
                 .toList();
     }

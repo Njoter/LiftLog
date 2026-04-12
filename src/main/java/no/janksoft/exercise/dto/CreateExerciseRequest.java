@@ -3,6 +3,9 @@ package no.janksoft.exercise.dto;
 import jakarta.validation.constraints.*;
 
 public record CreateExerciseRequest(
+        @NotNull(message = "User ID is required")
+        Long userId,
+
         @NotBlank(message = "Exercise name is required")
         @Size(max = 50, message = "Exercise name must be less than 50 characters")
         String name,
