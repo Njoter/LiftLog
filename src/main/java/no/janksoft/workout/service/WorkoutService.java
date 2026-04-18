@@ -7,21 +7,21 @@ import no.janksoft.exercise.repository.ExerciseRepository;
 import no.janksoft.workout.dto.WorkoutSet;
 import no.janksoft.workout.dto.CreateWorkoutSetRequest;
 import no.janksoft.workout.dto.WorkoutSetResponse;
-import no.janksoft.workout.repository.WorkoutRepository;
+import no.janksoft.workout.repository.workoutSetRepository;
 import org.springframework.stereotype.Service;
 
 @Service
 @RequiredArgsConstructor
 public class WorkoutService {
 
-    private final WorkoutRepository workoutRepository;
+    private final workoutSetRepository workoutSetRepository;
     private final ExerciseRepository exerciseRepository;
 
     public WorkoutSetResponse createWorkoutSet(CreateWorkoutSetRequest request) {
         Exercise exercise = exerciseRepository.findById(request.exerciseId())
                 .orElseThrow(() -> new ExerciseNotFoundException(request.exerciseId()));
 
-        WorkoutSet saved = workoutRepository.save(
+        WorkoutSet saved = workoutSetRepository.save(
                 new WorkoutSet(
                         request.userId(),
                         request.exerciseId(),
@@ -41,5 +41,12 @@ public class WorkoutService {
                 workoutSet.getExerciseWeightKg(),
                 workoutSet.getExerciseReps()
         );
+    }
+
+    public void deleteWorkoutSet(Long id) {
+        WorkoutSet workoutSet = workoutSetRepository.findById(id)
+                .orElseThrow(() -> new ExerciseNotFoundException(id));
+
+        workoutSetRepository.delete(workoutSet);
     }
 }

@@ -6,10 +6,7 @@ import no.janksoft.workout.dto.CreateWorkoutSetRequest;
 import no.janksoft.workout.dto.WorkoutSetResponse;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("${api.base-path}/workout")
@@ -24,5 +21,13 @@ public class WorkoutController {
     ) {
         WorkoutSetResponse response = workoutService.createWorkoutSet(request);
         return ResponseEntity.status(HttpStatus.CREATED).body(response);
+    }
+
+    @DeleteMapping("{id}")
+    public ResponseEntity<Void> deleteWorkoutSet(
+            @PathVariable Long id
+    ) {
+        workoutService.deleteWorkoutSet(id);
+        return ResponseEntity.noContent().build();
     }
 }
