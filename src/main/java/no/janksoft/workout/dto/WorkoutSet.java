@@ -1,4 +1,4 @@
-package no.janksoft.workout;
+package no.janksoft.workout.dto;
 
 import jakarta.persistence.*;
 import lombok.Getter;
@@ -20,8 +20,8 @@ public class WorkoutSet {
     @Column(name = "user_id", nullable = false)
     private Long userId;
 
-    @Column(name = "exercise_name", nullable = false)
-    private String exerciseName;
+    @Column(name = "exerciseId", nullable = false)
+    private Long exerciseId;
 
     @Column(name = "exercise_weightKg", nullable = false)
     private Double exerciseWeightKg;
@@ -29,13 +29,18 @@ public class WorkoutSet {
     @Column(name = "exercise_reps", nullable = false)
     private Integer exerciseReps;
 
-    private LocalDateTime timestamp;
+    private LocalDateTime createdAt;
 
-    public WorkoutSet(Long userId, String exerciseName, Double exerciseWeightKg, Integer exerciseReps) {
+    public WorkoutSet(
+            Long userId,
+            Long exerciseId,
+            Double exerciseWeightKg,
+            Integer exerciseReps
+    ) {
         this.userId = userId;
-        this.exerciseName = exerciseName;
+        this.exerciseId = exerciseId;
         this.exerciseWeightKg = exerciseWeightKg;
         this.exerciseReps = exerciseReps;
-        this.timestamp = LocalDateTime.now();
+        this.createdAt = LocalDateTime.now();
     }
 }
