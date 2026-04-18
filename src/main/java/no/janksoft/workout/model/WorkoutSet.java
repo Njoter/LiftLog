@@ -1,4 +1,4 @@
-package no.janksoft.workout.dto;
+package no.janksoft.workout.model;
 
 import jakarta.persistence.*;
 import lombok.Getter;
