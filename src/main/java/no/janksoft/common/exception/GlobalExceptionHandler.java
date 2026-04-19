@@ -119,8 +119,7 @@ public class GlobalExceptionHandler {
 
         Throwable rootCause = e.getMostSpecificCause();
 
-        if (rootCause instanceof SQLException) {
-            SQLException sqlException = (SQLException) rootCause;
+        if (rootCause instanceof SQLException sqlException) {
             String sqlState = sqlException.getSQLState();
 
             switch (sqlState) {
