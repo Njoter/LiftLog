@@ -11,6 +11,8 @@ import no.janksoft.workout.exception.WorkoutSetNotFoundException;
 import no.janksoft.workout.repository.workoutSetRepository;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 @RequiredArgsConstructor
 public class WorkoutService {
@@ -31,17 +33,33 @@ public class WorkoutService {
                 )
         );
 
-        return toResponse(saved, exercise);
+        return toResponse(saved, exercise.getName());
     }
 
-    private WorkoutSetResponse toResponse(WorkoutSet workoutSet, Exercise exercise) {
-        return new WorkoutSetResponse(
-                workoutSet.getId(),
-                workoutSet.getCreatedAt(),
-                exercise.getName(),
-                workoutSet.getExerciseWeightKg(),
-                workoutSet.getExerciseReps()
-        );
+    public List<WorkoutSetResponse> getWorkoutSetsThisWeekByExercise(Long exerciseId) {
+        Exercise exercise = exerciseRepository.findById(exerciseId)
+                .orElseThrow(() -> new ExerciseNotFoundException(exerciseId));
+
+        List<WorkoutSet> workoutSets = workoutSetRepository.findThisWeekByExerciseId(exerciseId);
+
+        String exerciseName = exercise.getName();
+
+        return workoutSets.stream()
+                .map(workoutSet -> toResponse(workoutSet, exerciseName))
+                .toList();
+    }
+
+    public List<WorkoutSetResponse> getWorkoutSetsThisMonthByExercise(Long exerciseId) {
+        Exercise exercise = exerciseRepository.findById(exerciseId)
+                .orElseThrow(() -> new ExerciseNotFoundException(exerciseId));
+
+        List<WorkoutSet> workoutSets = workoutSetRepository.findThisMonthByExerciseId(exerciseId);
+
+        String exerciseName = exercise.getName();
+
+        return workoutSets.stream()
+                .map(workoutSet -> toResponse(workoutSet, exerciseName))
+                .toList();
     }
 
     public void deleteWorkoutSet(Long id) {
@@ -49,5 +67,15 @@ public class WorkoutService {
                 .orElseThrow(() -> new WorkoutSetNotFoundException(id));
 
         workoutSetRepository.delete(workoutSet);
+    }
+
+    private WorkoutSetResponse toResponse(WorkoutSet workoutSet, String exerciseName) {
+        return new WorkoutSetResponse(
+                workoutSet.getId(),
+                workoutSet.getCreatedAt(),
+                exerciseName,
+                workoutSet.getExerciseWeightKg(),
+                workoutSet.getExerciseReps()
+        );
     }
 }
