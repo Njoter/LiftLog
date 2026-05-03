@@ -1,11 +1,13 @@
 package no.janksoft.workout.dto;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 public record WorkoutSetResponse(
-        Long id,
-        LocalDateTime createdAt,
+        Long exerciseId,
         String exerciseName,
-        Double weightKg,
-        Integer reps
+        List<WorkoutSetDetails> workoutSets,
+        int totalReps,
+        int totalSets,
+        LocalDateTime lastRecorded
 ) {}

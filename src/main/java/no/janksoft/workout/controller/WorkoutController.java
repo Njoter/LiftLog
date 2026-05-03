@@ -1,10 +1,10 @@
 package no.janksoft.workout.controller;
 
 import lombok.RequiredArgsConstructor;
-import no.janksoft.workout.model.WorkoutSet;
+import no.janksoft.workout.dto.WorkoutSetResponse;
 import no.janksoft.workout.service.WorkoutService;
 import no.janksoft.workout.dto.CreateWorkoutSetRequest;
-import no.janksoft.workout.dto.WorkoutSetResponse;
+import no.janksoft.workout.dto.WorkoutSetDetails;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -19,26 +19,26 @@ public class WorkoutController {
     private final WorkoutService workoutService;
 
     @PostMapping
-    public ResponseEntity<WorkoutSetResponse> createWorkoutSet(
+    public ResponseEntity<WorkoutSetDetails> createWorkoutSet(
             @RequestBody CreateWorkoutSetRequest request
     ) {
-        WorkoutSetResponse response = workoutService.createWorkoutSet(request);
+        WorkoutSetDetails response = workoutService.createWorkoutSet(request);
         return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }
 
     @GetMapping("by-exercise/{exerciseId}/week")
-    public ResponseEntity<List<WorkoutSetResponse>> getWorkoutSetsThisWeekByExercise(
+    public ResponseEntity<WorkoutSetResponse> getWorkoutSetsByExerciseThisWeek(
             @PathVariable Long exerciseId
     ) {
-        List<WorkoutSetResponse> response = workoutService.getWorkoutSetsThisWeekByExercise(exerciseId);
+        WorkoutSetResponse response = workoutService.getWorkoutSetsByExerciseThisWeek(exerciseId);
         return ResponseEntity.ok(response);
     }
 
     @GetMapping("by-exercise/{exerciseId}/month")
-    public ResponseEntity<List<WorkoutSetResponse>> getWorkoutSetsThisMonthByExercise(
+    public ResponseEntity<WorkoutSetResponse> getWorkoutSetsByExerciseThisMonth(
             @PathVariable Long exerciseId
     ) {
-        List<WorkoutSetResponse> response = workoutService.getWorkoutSetsThisMonthByExercise(exerciseId);
+        WorkoutSetResponse response = workoutService.getWorkoutSetsByExerciseThisMonth(exerciseId);
         return ResponseEntity.ok(response);
     }
 
